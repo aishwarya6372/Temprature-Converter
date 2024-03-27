@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Temprature Convertor</title>
+      <style>
+         .container{
+         height: 100vh;
+         width: 100%;
+         position: fixed;
+         top: 0px;
+         left: 0px;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         }
+         .temperature-con{
+         height: 430px;
+         width: 300px;
+         box-shadow: 0px 0px 20px grey;
+         border-radius: 30px;
+         padding: 20px;
+         }
+         #temperature{
+         width: 80%;
+         height: 30px;
+         font-size: 20px;
+         border: none;
+         outline: none;
+         text-align: center;
+         border-bottom: 4px solid grey;
+         margin-top: 20px;
+         margin-left: 10%;
+         }
+         select{
+         height: 30px;
+         width: 40%;
+         margin-left: 20px;
+         }
+         button[type="button"]{
+         height: 40px;
+         width: 90%;
+         margin-left: 5%;
+         border: none;
+         outline: none;
+         background-color:orange;
+         border-radius: 10px;
+         color: white;
+         font-size: 20px;
+         font-weight: bolder;
+         }
+         #op{
+         text-align: center;
+         margin-bottom: 30px;
+         }
+      </style>
+   </head>
+   <body>
+      <div class="container">
+         <div class="temperature-con">
+            <h1 align="center" style="font-size: 20px;">TEMPRATURE CONVERTOR</h1>
+            <center>
+               <img height="100px" src="https://cdn-cms.orchidsinternationalschool.com/media/temperature-converter.jpg">
+            </center>
+            <div style="margin-top: 20px;">
+               <form>
+                  <label style="font-weight: bolder;">Temperature</label>
+                  <input type="text" id="temperature" placeholder="0">
+                  <br>
+                  <br>
+                  <select id="from-temp">
+                  </select>
+                  <select id="to-temp">
+                  </select>
+                  <br>
+                  <br>
+                  <button type="button" onclick="convertTemperature()">CONVERT</button>
+                  <h1 id="op"></h1>
+               </form>
+            </div>
+         </div>
+      </div>
+      <script>
+         let api ="https://v6.exchangerate-api.com/v6/7155edfdaf3cd864859fc34b/latest/USD";
+         let fromTemperatureDropdown = document.getElementById("from-temp");
+         let toTemperatureDropdown = document.getElementById("to-temp");
+         let op = document.getElementById("op");
+         op.innerHTML= "output";
+         let tempArr = ["FAH", "CEL", "KEL"];
+
+         tempArr.forEach((temp) =>{
+         let option = document.createElement("option");
+         option.value= temp;
+         option.innerHTML= temp;
+         fromTemperatureDropdown.appendChild(option);
+         })
+
+         tempArr.forEach((temp) =>{
+         let option = document.createElement("option");
+         option.value= temp;
+         option.innerHTML= temp;
+         toTemperatureDropdown.appendChild(option);
+         })
+
+         fromTemperatureDropdown.value="CEL";
+         toTemperatureDropdown.value="FAH";
+
+         function convertTemperature(){
+            let fromTemp = document.getElementById("from-temp").value;
+            let toTemp = document.getElementById("to-temp").value;
+            let temp = document.getElementById("temperature").value;
+            if(toTemp==fromTemp){
+               alert("Enter different from and to temperatures")
+            }
+            if(temp != ""){
+             if(fromTemp=='CEL' && toTemp=='FAH'){
+               let f = (parseFloat(temp) * 9) / 5 + 32;
+               op.innerHTML = `${temp} ${fromTemp} = ${f.toFixed(2)} ${toTemp}`
+             }
+
+             if(fromTemp=='CEL' && toTemp=='KEL'){
+               let k = (parseFloat(temp) + 273.15);
+               op.innerHTML = `${temp} ${fromTemp} = ${k.toFixed(2)} ${toTemp}`
+             }
+
+             if(fromTemp=='FAH' && toTemp=='CEL'){
+               let c = ((parseFloat(temp) - 32) * 5) / 9;
+               op.innerHTML = `${temp} ${fromTemp} = ${c.toFixed(2)} ${toTemp}`
+             }
+
+             if(fromTemp=='FAH' && toTemp=='KEL'){
+               let k = (parseFloat(temp) - 32) * 5 / 9 + 273.15;
+               op.innerHTML = `${temp} ${fromTemp} = ${k.toFixed(2)} ${toTemp}`
+             }
+
+             if(fromTemp=='KEL' && toTemp=='FAH'){
+               let f = (parseFloat(temp) - 273.15) * 9 / 5 + 32;
+               op.innerHTML = `${temp} ${fromTemp} = ${f.toFixed(2)} ${toTemp}`
+             }
+
+             if(fromTemp=='KEL' && toTemp=='CEL'){
+               let c = (parseFloat(temp) - 273.15);
+               op.innerHTML = `${temp} ${fromTemp} = ${c.toFixed(2)} ${toTemp}`
+             }
+
+           }
+         else{
+         alert("Enter a temperature")
+         }
+      }
+      </script>
+   </body>
+</html>
